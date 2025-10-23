@@ -2,7 +2,7 @@
 import Button from './Button';
 import No_Project from '../assets/no-projects.png';
 
-export default function NoProejectSelected() {
+export default function NoProejectSelected({displayNewProjectForm}) {
   return(
   <div className='mt-24 text-center w-2/3'>
     <img src={No_Project} alt="No Project Selected"
@@ -12,7 +12,7 @@ export default function NoProejectSelected() {
       Please select a project to view its details.
     </p>
     <p className='mt-8'>
-        <Button>+ Create New Project</Button>
+        <Button onClick={displayNewProjectForm}>+ Create New Project</Button>
     </p>
   </div>
   )

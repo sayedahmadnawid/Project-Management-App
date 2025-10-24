@@ -13,7 +13,7 @@ export default function ProjectsSidebar({
       </p>
       <ul className="mt-8">
         {projects.map((project) => {
-          let cssClasses = "my-1 mx-2 px-2 py-1 rounded-md  bg-stone-400 hover:bg-slate-400 hover:text-slate-800";
+          let cssClasses = "my-1 mx-2 px-2 py-1 rounded-md hover:bg-slate-400 hover:text-slate-800";
           if(selectedProjectId === project.id){
             cssClasses += " text-stone-200 bg-stone-800";
           }else{

@@ -53,9 +53,21 @@ function App() {
     });
   }  
 
+  function handleDeleteProject(){
+    setIsNewProjectFormVisible((prevState) => {
+      const updatedProjects = prevState.projects.filter((project) => project.id !== prevState.newProjectId);
+
+      return {
+        ...prevState,
+        newProjectId: undefined,
+        projects: updatedProjects,
+      };
+    });
+  }
+
   const selectedProject = isNewProjectFormVisible.projects.find((project) => project.id === isNewProjectFormVisible.newProjectId)
 
-  let contents = <SelectedProject project={selectedProject}/>
+  let contents = <SelectedProject project={selectedProject} onDeleteProject={handleDeleteProject}/>
   if (
     isNewProjectFormVisible.newProjectId === null 
   ) {

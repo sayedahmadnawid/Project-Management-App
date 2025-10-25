@@ -5,11 +5,37 @@ import { useState, useRef } from "react";
 import SelectedProject from "./components/SelectedProject";
 
 function App() {
-
   const [isNewProjectFormVisible, setIsNewProjectFormVisible] = useState({
     newProjectId: undefined,
     projects: [],
+    tasks: [],
   });
+
+  function handleAddTask(text) {
+    setIsNewProjectFormVisible((prevState) => {
+      const newTask = {
+        taskId: Math.random(),
+        text: text,
+        projectId: prevState.newProjectId,
+      };
+
+      return {
+        ...prevState,
+        tasks: [...prevState.tasks, newTask],
+      };
+    });
+  }
+
+  function handleDeleteTask(id) {
+    setIsNewProjectFormVisible((prevState) => {
+      return {
+        ...prevState,
+        tasks: prevState.tasks.filter((task) => {
+          task.taskId !== id;
+        }),
+      };
+    });
+  }
 
   function handleDisplayNewProjectForm() {
     setIsNewProjectFormVisible((prevState) => {
@@ -51,11 +77,13 @@ function App() {
         newProjectId: id,
       };
     });
-  }  
+  }
 
-  function handleDeleteProject(){
+  function handleDeleteProject() {
     setIsNewProjectFormVisible((prevState) => {
-      const updatedProjects = prevState.projects.filter((project) => project.id !== prevState.newProjectId);
+      const updatedProjects = prevState.projects.filter(
+        (project) => project.id !== prevState.newProjectId
+      );
 
       return {
         ...prevState,
@@ -65,25 +93,31 @@ function App() {
     });
   }
 
-  const selectedProject = isNewProjectFormVisible.projects.find((project) => project.id === isNewProjectFormVisible.newProjectId)
+  const selectedProject = isNewProjectFormVisible.projects.find(
+    (project) => project.id === isNewProjectFormVisible.newProjectId
+  );
 
-  let contents = <SelectedProject project={selectedProject} onDeleteProject={handleDeleteProject}/>
-  if (
-    isNewProjectFormVisible.newProjectId === null 
-  ) {
+  let contents = (
+    <SelectedProject
+      project={selectedProject}
+      onDeleteProject={handleDeleteProject}
+      onAddTask={handleAddTask}
+      onDeleteTask={handleDeleteTask}
+      tasks={isNewProjectFormVisible.tasks}
+    />
+  );
+  if (isNewProjectFormVisible.newProjectId === null) {
     contents = (
       <NewProject
         onAddProject={handleAddProject}
         onCancel={handleCloseNewProjectForm}
       />
     );
-  } else if (
-    isNewProjectFormVisible.newProjectId === undefined
-  ) {
+  } else if (isNewProjectFormVisible.newProjectId === undefined) {
     contents = (
       <NoProjectSelected displayNewProjectForm={handleDisplayNewProjectForm} />
     );
-  } 
+  }
 
   return (
     <main className="h-screen flex gap-8 ">
